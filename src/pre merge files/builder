@@ -1,0 +1,15 @@
+nasm -f elf32 start.asm
+#i386-elf/bin/i386-elf-as start.s -o start.o
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o main.o main.c
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o screen.o screen.c
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o gdt.o gdt.c
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o idt.o idt.c
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o isr.o isr.c
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o irq.o irq.c
+i386-elf/bin/i386-elf-gcc -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -c -o keyboard.o keyboard.c
+#ld -T link.ld -m elf_i386 -o myos.bin start.o main.o screen.o gdt.o idt.o isr.o irq.o keyboard.o
+ld -T link.ld -m elf_i386 -o myos.bin start.o main.o screen.o gdt.o idt.o isr.o irq.o keyboard.o
+
+cp myos.bin ./isodir/boot/myos.bin
+grub-mkrescue -o ./myos.iso ./isodir
+

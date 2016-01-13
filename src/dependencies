@@ -1,0 +1,21 @@
+./obj_files/kernel.o: src_files/kernel.c src_files/../inc_files/kernel.h \
+ src_files/../inc_files/io.h src_files/../inc_files/malloc.h \
+ src_files/../inc_files/kernel.h src_files/../inc_files/stdlib.h \
+ src_files/../inc_files/system.h
+./obj_files/io.o: src_files/io.c src_files/../inc_files/io.h \
+ src_files/../inc_files/malloc.h src_files/../inc_files/kernel.h \
+ src_files/../inc_files/io.h src_files/../inc_files/stdlib.h
+./obj_files/malloc.o: src_files/malloc.c src_files/../inc_files/malloc.h \
+ src_files/../inc_files/kernel.h src_files/../inc_files/io.h \
+ src_files/../inc_files/malloc.h src_files/../inc_files/stdlib.h \
+ src_files/../inc_files/kernel.h
+./obj_files/stdlib.o: src_files/stdlib.c src_files/../inc_files/stdlib.h \
+ src_files/../inc_files/io.h src_files/../inc_files/malloc.h \
+ src_files/../inc_files/kernel.h src_files/../inc_files/stdlib.h
+./obj_files/gdt.o: src_files/gdt.c inc_files/system.h
+./obj_files/idt.o: src_files/idt.c inc_files/system.h
+./obj_files/isr.o: src_files/isr.c inc_files/system.h
+./obj_files/irq.o: src_files/irq.c inc_files/system.h
+./obj_files/main.o: src_files/main.c inc_files/system.h
+./obj_files/keyboard.o: src_files/keyboard.c inc_files/system.h inc_files/keyboard.h
+./obj_files/screen.o: src_files/screen.c inc_files/system.h

@@ -1,0 +1,51 @@
+#
+#	COMPILING SCRIPT
+#
+#    edited for merge 12-7-2014 original for premerge left in comments
+#
+#
+
+echo -e "\n\n--------------------\nBacking up files\n"
+mv backup/backup2.bin backup/backup3.bin
+mv backup/backup1.bin backup/backup2.bin
+mv myos.bin backup/backup1.bin
+echo -e "\nBacked up files\n--------------------\n"
+
+echo -e "\n\n\n--------------------\nRemoving old files\n"
+rm ../myos.iso
+rm myos.bin
+rm ../isodir/boot/myos.bin
+echo -e "\nRemoved old files\n--------------------\n\n"
+
+echo -e "\n--------------------\nCleaning with make clean\n"
+make clean
+echo -e "\nCleaning completed\n--------------------"
+
+#Compile boot.s to boot.o
+echo -e "\n\n\n--------------------\nCompiling start.asm to start.o"
+#~/elf-i386/bin/i386-elf-as ./src_files/boot.s -o ./obj_files/boot.o
+
+#changed to start.asm
+nasm -f elf32 ./src_files/start.asm -o ./obj_files/start.o
+#echo -e "\nCompiled start.o\n--------------------\n"
+
+echo -e "\n\n---------------------------------------\nStarting maeklulz\n"
+make
+echo -e "\nMaek is donelul\n----------------------------------------\n"
+
+#Compile linker
+echo -e "\n\n------------------------------\nCompiling all .o files into myos.bin with link.ld\n"
+#~/elf-i386/bin/i386-elf-gcc -T ./src_files/linker.ld -o myos.bin -O2 -ffreestanding -nostdlib ./obj_files/*.o -lgcc
+ld -T ./src_files/link.ld -m elf_i386 -o myos.bin ./obj_files/*.o
+echo -e "\nCompiled all files together into myos.bin\n------------------------------\n"
+
+#Update iso file
+echo -e "\n\n----------------------------------------\nPutting myos.bin into isodir and making bootable iso from isodir with grub-mkrescue\n"
+#cp myos.bin ../isodir/boot/myos.bin
+#grub-mkrescue -o ../myos.iso ../isodir
+
+cp myos.bin ../isodir/boot/myos.bin
+grub-mkrescue -o ../myos.iso ../isodir
+echo -e "\nMade bootable .iso from isodir\n----------------------------------------\n"
+
+echo -e "\n\n--------------------\nAll files compiled!\n--------------------\n\n\n"
